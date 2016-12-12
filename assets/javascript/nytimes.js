@@ -1,4 +1,3 @@
-// Hi guys! I only mean this as a starting point——please do feel free to edit, refactor, (or completely re-do) it!
 // These variables are meant to correspond with the search fields which we'll be setting-up in html.
 // Also, at this point the 'for-loop' is just outputting documents' headlines to the console,
 // but once we have divs, IDs, etc., I think we'll be able to make use of this scaffolding to send
@@ -7,6 +6,14 @@
 // The problem 'how to dictate quanity of records to display' has not been addressed, yet.
 //
 // The above comments are valid as of 5:30pm on 12/11. Please delete/re-write these comments as you see fit. :-)
+
+// this will make multiple api calls to get > 10 records
+// I still have to figure out how to merge the results into 1 nice neat object
+// or deal with an object of the result objects
+
+
+
+
 
 $(document).ready(function(){
 	// Eventually we'll need to write some javascript to populate these variables from the html form.
@@ -17,6 +24,16 @@ $(document).ready(function(){
 	var yearStart = "2012"; // the year to put into parameter 'begin-date'. 
 	var yearEnd = "2013"; // the year to put into parameter 'end-date'.
 	var params = {}; // we can build the complete url dynamically using this variable. See 'if statements' below.
+	var articlesNeeded = 25;  // this will need to change via user input
+	var pagesNeeded = 0;
+	var partialPage = 0;
+	var result = {};
+
+	pagesNeeded = articlesNeeded/10;
+	partialPage = articlesNeeded%10;
+	if (partialPage === 0) {
+		pagesNeeded--
+	}
 
 	var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json"; // the base url to which we can add parameters/
 
@@ -34,28 +51,31 @@ $(document).ready(function(){
 	}
 	// console.log(params);
 
+
+
+
+	for (i=0; i<pagesNeeded; i++){
+
+
 	// build the complete url based on the user's input.
-	url += '?' + $.param(params)+"&page=1";
-	// console.log(url);
+		url += '?' + $.param(params)+'&page='+ i;
+		// url += '?' + $.param(params)
+		
+		console.log(url);
 
-// i played around with the pagination and I have a handle on how to deal with it.  It will require 
-// some loops and some math.
-
-
-
-
-	$.ajax({
-		url: url,
-		method: 'GET',
-	}).done(function(result) {
+		$.ajax({
+			url: url,
+			method: 'GET',
+		}).done(function(result) {
 		// Logging the entire response object so we can reference it during the development process.
-		console.log(result.response);
-
+	
 		// Iterating through the array called 'docs' (it's in the response object) in order to pull out the 
 		// properties we wish to display.
 		// At this point, just console-logging the value of the property called headline.main, which is
 		// the title of each article.
 		// Eventually output of this loop should target the appropriate html/css IDs, etc.
+		
+
 		for (var i=0; i<(result.response.docs).length; i++) {
 			console.log(result.response.docs[i].headline.main);
 		}
@@ -64,10 +84,17 @@ $(document).ready(function(){
 		// choose how many items we display. For more about how to do this, see: "Pagination" section at 
 		// https://developer.nytimes.com/article_search_v2.json#/README
 
-	}).fail(function(err) {
-		throw err;
-	});
+		}).fail(function(err) {
+			throw err;
+		});
+
+}
+
+
+
+
 }); // document.ready
+
 
 
 
