@@ -35,8 +35,13 @@ $(document).ready(function(){
 	// console.log(params);
 
 	// build the complete url based on the user's input.
-	url += '?' + $.param(params);
+	url += '?' + $.param(params)+"&page=1";
 	// console.log(url);
+
+// i played around with the pagination and I have a handle on how to deal with it.  It will require 
+// some loops and some math.
+
+
 
 
 	$.ajax({
