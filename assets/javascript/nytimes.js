@@ -27,7 +27,11 @@ $(document).ready(function(){
 	var articlesNeeded = 25;  // this will need to change via user input
 	var pagesNeeded = 0;
 	var partialPage = 0;
+	var requestedArticles = [];
 	var result = {};
+	var tempresult = {};
+
+	var p = 0;  // this will increment for each page requested - each page = 10 articles	
 
 	pagesNeeded = articlesNeeded/10;
 	partialPage = articlesNeeded%10;
@@ -54,15 +58,20 @@ $(document).ready(function(){
 
 
 
-	for (i=0; i<pagesNeeded; i++){
+	// for (i=0; i<pagesNeeded; i++){
 
 
 	// build the complete url based on the user's input.
-		url += '?' + $.param(params)+'&page='+ i;
+		
+		url += '?' + $.param(params)+'&page='+ p;
+		
 		// url += '?' + $.param(params)
 		
 		console.log(url);
 
+		getNYTpages();
+		
+function getNYTpages(){
 		$.ajax({
 			url: url,
 			method: 'GET',
@@ -74,10 +83,38 @@ $(document).ready(function(){
 		// At this point, just console-logging the value of the property called headline.main, which is
 		// the title of each article.
 		// Eventually output of this loop should target the appropriate html/css IDs, etc.
-		
+// 		var i = 0;
+// 		var j = 0;
+// 		console.log("length = " + (result.response.docs).length);
 
-		for (var i=0; i<(result.response.docs).length; i++) {
-			console.log(result.response.docs[i].headline.main);
+
+// 		if (p == 0) {  // first time around requestedArticles is empty
+// 			for (j=0; j<(result.response.docs).length; j++) {
+// 				// console.log(result.response.docs[i].headline.main);
+// 				requestedArticles = result.response.docs
+// 			}	
+// 		}
+// 		else {  
+// 			for (j=requestedArticles.length; (j < requestedArticles.length + 10  || j == articlesNeeded); j++ ) {
+// 				requestedArticles[j] = result.response.docs[j-10]
+// 			}
+// 		}
+// console.log("results = " + result.response.docs)
+
+// console.log("requestedArticles = " + requestedArticles)
+debugger
+		
+		requestedArticles.push(result);
+
+		console.log("p = " + p);
+		console.log("requestedArticles = " + requestedArticles[p]);
+		
+		p++;
+
+		if (p < pagesNeeded){
+			url += '?' + $.param(params)+'&page='+ p;
+			console.log(url);
+			getNYTpages();
 		}
 
 		// NOTE: We still need to establish a way to make use of the 'recordCount' variable, so that the user can
@@ -88,9 +125,8 @@ $(document).ready(function(){
 			throw err;
 		});
 
+
 }
-
-
 
 
 }); // document.ready
