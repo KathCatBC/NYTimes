@@ -1,9 +1,10 @@
 // These variables are meant to correspond with the search fields which we'll be setting-up in html.
 // Also, at this point the 'for-loop' is populating an array with objects
+
 // but once we have divs, IDs, etc., I think we'll be able to make use of this scaffolding to send
 // the output of our choice to the appropriate html elements on screen.
 //
-// The problem 'how to dictate quanity of records to display' has not been addressed, yet.
+
 
 
 // this will make multiple api calls to get > 10 records
@@ -51,14 +52,11 @@ $(document).ready(function(){
 	}
 	
 
-
-		
 		url += '?' + $.param(params)+'&page='+ p;   // added the page number we need to the URL
-		
 		
 		console.log(url);  // instead of console logging params - this will console log params + page data
 
-		getNYTpages();
+		getNYTpages();  // call the function to get the articles
 		
 		function getNYTpages(){       // made this into a function so it can be called 
 			$.ajax({					// the second call happens after the first has finished 
@@ -68,18 +66,24 @@ $(document).ready(function(){
 		
 			var j = 0;  // for looping thru the results
 
-		// This will loop thru all the articles retrieved and push parts into an array of objects we don't have to display all the articles retrieved but deal with that on the front end instead of the backend.  Right now it just captures headline and web_url.  
+			// This will loop thru all the articles retrieved and push parts into an array of objects we don't have to display all the articles retrieved but deal with that on the front end instead of the backend.  Right now it just captures headline and web_url.  
 
 
 			
 			var weburlArticle;   // these are not really needed but make the code easier to read
 			var headlineArticle;
 
-			for (j=0; j<(result.response.docs).length; j++) {
+
+			// this should work to add only enough records to the array - but I am getting too many 429 errors.  So I am taking a break to work on my other homework.
+
+			// we still need to decide which fields to extract & show the user.
+
+			for (j=0; (j<(result.response.docs).length && recordCount < articlesNeeded); j++) {
 				headlineArticle = result.response.docs[j].headline.main;				
 				weburlArticle = result.response.docs[j].web_url;
-				requestedArticles.push({id: recordCount, headline: headlineArticle, weburl:weburlArticle})
-				recordCount ++
+				requestedArticles.push({id: recordCount, headline: headlineArticle, weburl:weburlArticle})  //pushing the fields into the array
+				recordCount ++  // when I did not use record count the same record was pushed into the array - end up with an array of 10 of the same objects
+				console.log("records:  " + recordCount + " articlesNeeded:  " + articlesNeeded)
 			}	
 				
 			p++;    // increment p - p is the page number to retrieve
@@ -89,12 +93,6 @@ $(document).ready(function(){
 				getNYTpages();
 			}
 
-		// NOTE: We still need to establish a way to make use of the 'recordCount' variable, so that the user can
-		// choose how many items we display. For more about how to do this, see: "Pagination" section at 
-		// https://developer.nytimes.com/article_search_v2.json#/README
-
-
-		// I think we deal with showing the correct number on the front end - as long as we don't get any errors the records we retrieve are >= recordCount
 
 		}).fail(function(err) {
 			throw err;
@@ -106,4 +104,5 @@ $(document).ready(function(){
 		console.log(JSON.stringify(requestedArticles))  // this is our array of objects we want to display
 
 }); // document.ready
+
 
