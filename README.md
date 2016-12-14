@@ -1,5 +1,7 @@
 # NYTimes
 
+If you edit the file it looks better (at least in GitHub)
+
 
 {
   "response": {
