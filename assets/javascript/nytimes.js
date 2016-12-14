@@ -1,12 +1,3 @@
-// These variables are meant to correspond with the search fields which we'll be setting-up in html.
-// Also, at this point the 'for-loop' is just outputting documents' headlines to the console,
-// but once we have divs, IDs, etc., I think we'll be able to make use of this scaffolding to send
-// the output of our choice to the appropriate html elements on screen.
-//
-// The problem 'how to dictate quanity of records to display' has not been addressed, yet.
-//
-// The above comments are valid as of 5:30pm on 12/11. Please delete/re-write these comments as you see fit. :-)
-
 // this will make multiple api calls to get > 10 records
 // I still have to figure out how to merge the results into 1 nice neat object
 // or deal with an object of the result objects
@@ -20,7 +11,6 @@ $(document).ready(function(){
 	// Right now, just testing them manually.
 	var apiKey = "62edb78d7ae94fd7846ceea0c4a8fcad";
 	var term = "digital rights"; // The search-term; corresponds to parameter 'q'.
-	var recordCount = ""; // The quantity of records to display. NOTE: NYTimes api DOES NOT accept this as a parameter.
 	var yearStart = "2012"; // the year to put into parameter 'begin-date'. 
 	var yearEnd = "2013"; // the year to put into parameter 'end-date'.
 	var params = {}; // we can build the complete url dynamically using this variable. See 'if statements' below.
@@ -117,9 +107,6 @@ debugger
 			getNYTpages();
 		}
 
-		// NOTE: We still need to establish a way to make use of the 'recordCount' variable, so that the user can
-		// choose how many items we display. For more about how to do this, see: "Pagination" section at 
-		// https://developer.nytimes.com/article_search_v2.json#/README
 
 		}).fail(function(err) {
 			throw err;
