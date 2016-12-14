@@ -1,3 +1,5 @@
+// https://github.com/KathCatBC/NYTimes
+
 // this will make multiple api calls to get > 10 records
 // I still have to figure out how to merge the results into 1 nice neat object
 // or deal with an object of the result objects
@@ -23,7 +25,7 @@ $(document).ready(function(){
 
 	var p = 0;  // this will increment for each page requested - each page = 10 articles	
 
-	pagesNeeded = articlesNeeded/10;
+	pagesNeeded = Math.floor(articlesNeeded/10);
 	partialPage = articlesNeeded%10;
 	if (partialPage === 0) {
 		pagesNeeded--
