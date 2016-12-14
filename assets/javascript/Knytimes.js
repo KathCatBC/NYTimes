@@ -13,13 +13,14 @@
 $(document).ready(function(){
 	// Eventually we'll need to write some javascript to populate these variables from the html form.
 	// Right now, just testing them manually.
-	var apiKey = "62edb78d7ae94fd7846ceea0c4a8fcad";
+	// var apiKey = "62edb78d7ae94fd7846ceea0c4a8fcad";   // Matt's API key
+	var apiKey = "aae85752c55d4facbe370489613d187b";   // Kathleen's API Key
 	var term = "digital rights"; // The search-term; corresponds to parameter 'q'.
 	
 	var yearStart = "2012"; // the year to put into parameter 'begin-date'. 
 	var yearEnd = "2013"; // the year to put into parameter 'end-date'.
 	var params = {}; // we can build the complete url dynamically using this variable. See 'if statements' below.
-	var articlesNeeded = 15;  // this will need to change via user input
+	var articlesNeeded = 45;  // this will need to change via user input
 	var pagesNeeded = 0;  // this is actually the number of the highest page number we need.
 	var partialPage = 0;  // used to calc pages in case user need # that is not a multiple of 10
 	var requestedArticles = [];
@@ -83,14 +84,17 @@ $(document).ready(function(){
 				weburlArticle = result.response.docs[j].web_url;
 				requestedArticles.push({id: recordCount, headline: headlineArticle, weburl:weburlArticle})  //pushing the fields into the array
 				recordCount ++  // when I did not use record count the same record was pushed into the array - end up with an array of 10 of the same objects
-				console.log("records:  " + recordCount + " articlesNeeded:  " + articlesNeeded)
 			}	
 				
+			console.log("article array:  ")
+			console.log(JSON.stringify(requestedArticles))  // this is our array of objects we want to display
+
 			p++;    // increment p - p is the page number to retrieve
 			if (p <= pagesNeeded){      // if we still need more pages
 				url += '?' + $.param(params)+'&page='+ p;   // call the function getting the next page.
 				console.log(url);
-				getNYTpages();
+				setTimeout(getNYTpages, 1000);
+
 			}
 
 
@@ -100,9 +104,5 @@ $(document).ready(function(){
 
 
 }
-		console.log("full array of requested articles and then some")
-		console.log(JSON.stringify(requestedArticles))  // this is our array of objects we want to display
-
+		
 }); // document.ready
-
-
