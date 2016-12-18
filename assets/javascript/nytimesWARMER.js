@@ -59,9 +59,12 @@ $(document).ready(function(){
 			for (var i=0; i<10; i++) {
 					console.log('document number: ' + i + ' on page index: ' + (page));
 					console.log(result.response.docs[i].headline.main);
+					// NEXT FEW LINES APPEND EACH headline TO THE BODY.
+					// WE'LL NEED TO ALTER THIS TO INCLUDE THE byline AND index-number, 
+					// AS WELL AS TO TURN THE headline INTO A HREF WHICH POINTS AT THE ARTICLE'S URL.
 					var item = ('<h2>' + (result.response.docs[i].headline.main) + '</h2>');
 					$('body').append(item);
-			} // end for i
+			} // end 'for i'
 			page++; // That page is done, so increment the counter variable 'page'.
 			// IF there is a 'next page' ... WAIT 1 SECOND TO AVOID error429...
 			if (page < (quantityRequested / 10)) {
@@ -76,10 +79,9 @@ $(document).ready(function(){
 
 	$('#searchButton').on('click', function(event){
 		event.preventDefault(); // prevents form from submittimg http request/reloading page.
-		term = $('#searchText').val().trim();
-		quantityRequested = $('#recordsToRetrieve').val().trim();
-		yearStart = $('#startYear').val().trim();
-		yearEnd = $('#endYear').val().trim();
+		term = $('#searchText').val().trim(); // loads the search term from html form into a variable.
+		quantityRequested = $('#recordsToRetrieve').val().trim(); // loads the number-of-records-to-retrieve from html form into a variable
+		yearStart = $('#startYear').val().trim(); // loads the ending-year from html form into a variable.
 		console.log("Search term is: " + term);
 		console.log("retrieve this many: " + quantityRequested);
 		console.log("Year start is interger? " + Number.isInteger(parseInt(yearStart)) + "length = " + yearStart.length);
